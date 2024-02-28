@@ -25,8 +25,8 @@ window.addEventListener("resize", function () {
 
 window.addEventListener("mousemove", function (event) {
   event.preventDefault();
-  uniforms.iMouse.value.x = (event.clientX / window.innerWidth) * 2 - 1;
-  uniforms.iMouse.value.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  uniforms.iMouse.value.x = event.clientX;
+  uniforms.iMouse.value.y = event.clientY;
 });
 
 window.addEventListener("mousedown", (event) => {
