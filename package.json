@@ -23,6 +23,8 @@
     "parcel": "^2.11.0"
   },
   "dependencies": {
-    "gh-pages": "^6.1.1"
+    "@types/three": "^0.161.2",
+    "gh-pages": "^6.1.1",
+    "three": "^0.161.0"
   }
 }
