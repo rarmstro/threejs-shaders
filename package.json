@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/rarmstro/threejs-shaders#readme",
   "devDependencies": {
+    "@parcel/transformer-glsl": "^2.11.0",
     "parcel": "^2.11.0"
   },
   "dependencies": {
