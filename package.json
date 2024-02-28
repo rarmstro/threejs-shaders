@@ -1,0 +1,19 @@
+{
+  "name": "threejs-shaders",
+  "version": "1.0.0",
+  "description": "Experiments with GLSL shaders",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rarmstro/threejs-shaders.git"
+  },
+  "author": "Robert Armstrong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rarmstro/threejs-shaders/issues"
+  },
+  "homepage": "https://github.com/rarmstro/threejs-shaders#readme"
+}
