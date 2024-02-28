@@ -2,9 +2,12 @@
   "name": "threejs-shaders",
   "version": "1.0.0",
   "description": "Experiments with GLSL shaders",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "launch": "parcel ./src/index.html",
+    "build": "parcel build ./src/index.html --public-url ./",
+    "predeploy": "npm run clean && npm run build",
+    "deploy": "gh-pages -d dist",
+    "clean": "rm -rf ./dist && rm -rf ./.parcel-cache"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/rarmstro/threejs-shaders/issues"
   },
-  "homepage": "https://github.com/rarmstro/threejs-shaders#readme"
+  "homepage": "https://github.com/rarmstro/threejs-shaders#readme",
+  "devDependencies": {
+    "parcel": "^2.11.0"
+  },
+  "dependencies": {
+    "gh-pages": "^6.1.1"
+  }
 }
