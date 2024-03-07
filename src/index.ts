@@ -9,7 +9,7 @@ var scene = new THREE.Scene();
 var camera = new THREE.Camera();
 var startTime;
 var prevTime;
-const MAX_FPS = 1000.0;
+const MAX_FPS = 60.0;
 
 var uniforms = {
   iTime: { value: 0.0 },
@@ -25,8 +25,10 @@ window.addEventListener("resize", function () {
 
 window.addEventListener("mousemove", function (event) {
   event.preventDefault();
-  uniforms.iMouse.value.x = event.clientX;
-  uniforms.iMouse.value.y = event.clientY;
+  if (uniforms.iMouse.value.z) {
+    uniforms.iMouse.value.x = event.clientX;
+    uniforms.iMouse.value.y = event.clientY;
+  }
 });
 
 window.addEventListener("mousedown", (event) => {
@@ -60,7 +62,7 @@ function init() {
   renderer.setClearColor(new THREE.Color(0.0, 0.0, 1.0));
   renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+  document.getElementById("renderer").appendChild(renderer.domElement);
 }
 
 function animate(timeStamp : number) {
