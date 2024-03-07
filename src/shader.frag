@@ -9,10 +9,23 @@ const float MIN_DISTANCE = 0.001;
 const float MAX_TOTAL_DISTANCE = 100.0;
 const float FOV_SCALE = 1.0;
 
-const vec3 GROUND_COLOR = vec3(1.0, 0.0, 0.0);
+const vec3 GROUND_COLOR_A = vec3(1.0, 0.3, 0.2);
+const vec3 GROUND_COLOR_B = vec3(1.0, 1.0, 0.5);
+
 const vec3 BOX_COLOR = vec3(0.0, 1.0, 0.0);
 const vec3 SPHERE_COLOR = vec3(0.0, 0.0, 1.0);
 const vec3 LIGHT_COLOR = vec3(1.0, 1.0, 1.0);
+
+struct Plane {
+  vec3 normal;
+  float height;
+};
+
+const Plane GROUND_PLANE = Plane(normalize(vec3(0.0,1.0,0.0)), -1.0);
+
+float sdPlane(vec3 position, Plane plane) {
+  return dot(position, plane.normal) - plane.height;
+}
 
 vec4 distanceUnion(vec4 a, vec4 b) {
   return a.w < b.w ? a : b;
@@ -54,8 +67,13 @@ vec4 getDistance(vec3 position) {
   float box_distance = sdBox(position - box_pos, box_size);
   vec4 box = vec4(BOX_COLOR, box_distance);
 
-  float ground_distance = position.y + 1.0;
-  vec4 ground = vec4(GROUND_COLOR, ground_distance);
+  float ground_distance = sdPlane(position, GROUND_PLANE);
+
+	// checkerboard function that returns 0 or 1
+	float check = mod(floor(position.x)+floor(position.z),2.0);
+
+	vec3 ground_col = GROUND_COLOR_A * check + GROUND_COLOR_B * (1.0 - check);
+  vec4 ground = vec4(ground_col, ground_distance);
 
   vec4 scene = distanceUnion(box, ground);
   scene = distanceUnion(scene, sphere);
@@ -113,9 +131,9 @@ vec3 getLight(vec3 surface_point, vec3 light_position) {
   // Check for shadow
   vec4 d = rayMarch(light_position, -l);
   if (d.w < length(light_position-surface_point) - 0.01) {
-    diffuse *= 0.1;
+    diffuse *= 0.3;
   }
-  return vec3(diffuse * d.xyz);
+  return vec3(diffuse);
 }
 
 void main() {
@@ -139,10 +157,10 @@ void main() {
   ray_direction.xz *= rot2D(-iTime);
 
   // Distance travelled
-  float distance = rayMarch(ray_origin, ray_direction).w;
+  vec4 distance = rayMarch(ray_origin, ray_direction);
 
   const vec3 light_position = vec3(-2.0, 3.0, -3.0);
-  vec3 pixel_color = getLight(ray_origin + ray_direction * distance, light_position);
+  vec3 pixel_color = getLight(ray_origin + ray_direction * distance.w, light_position) * distance.xyz;
 
 
   // const float near = 0.0;
