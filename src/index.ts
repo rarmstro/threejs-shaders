@@ -4,12 +4,14 @@ import * as THREE from 'three';
 import vertexShader from "./shader.vert";
 import fragmentShader from "./shader.frag";
 
+var container = document.getElementById( 'canvas' );
 var renderer = new THREE.WebGLRenderer();
 var scene = new THREE.Scene();
 var camera = new THREE.Camera();
 var startTime;
 var prevTime;
-const MAX_FPS = 60.0;
+const MAX_FPS = 120.0;
+var render_element : HTMLCanvasElement;
 
 var uniforms = {
   iTime: { value: 0.0 },
@@ -17,11 +19,13 @@ var uniforms = {
   iMouse: { value: new THREE.Vector4() }
 };
 
-window.addEventListener("resize", function () {
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  uniforms.iResolution.value.x = window.innerWidth;
-  uniforms.iResolution.value.y = window.innerHeight;
-});
+function updateSize() {
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  uniforms.iResolution.value.x = container.clientWidth;
+  uniforms.iResolution.value.y = container.clientHeight;
+}
+
+window.addEventListener("resize", updateSize);
 
 window.addEventListener("mousemove", function (event) {
   event.preventDefault();
@@ -56,13 +60,10 @@ function init() {
 
   scene.add(plane);
 
-  uniforms.iResolution.value.x = window.innerWidth;
-  uniforms.iResolution.value.y = window.innerHeight;
-
   renderer.setClearColor(new THREE.Color(0.0, 0.0, 1.0));
   renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.getElementById("renderer").appendChild(renderer.domElement);
+  container.appendChild(renderer.domElement);
+  updateSize();
 }
 
 function animate(timeStamp : number) {

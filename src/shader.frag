@@ -162,7 +162,13 @@ void main() {
   const vec3 light_position = vec3(-2.0, 3.0, -3.0);
   vec3 pixel_color = getLight(ray_origin + ray_direction * distance.w, light_position) * distance.xyz;
 
+  const float near = 5.0;
+  const float far = 65.0;
+  // float interp =  (clamp(near, far, distance.w) - near) / (far - near);
 
+  // pixel_color = mix(pixel_color, vec3(0.0, 0.0, 1.0), interp);
+  // float foo = clamp(near, far, distance.w) - near;
+  // pixel_color = mix(vec3(0.0, 0.0, 1.0), pixel_color,foo/60.0);
   // const float near = 0.0;
   // const float far = 55.0;
   // float interp = 1.0 - clamp(0.0, 1.0, (distance - near) / (far - near));
